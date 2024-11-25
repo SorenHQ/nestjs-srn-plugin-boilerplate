@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
       expandVariables: true,
       envFilePath: [`.env${process.env.NODE_ENV?'.'+process.env.NODE_ENV:""}`],
       isGlobal: true,
+      cache:true
     }),
   ],
 })

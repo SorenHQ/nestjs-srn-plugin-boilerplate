@@ -1,11 +1,14 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Logger, Param, Post } from '@nestjs/common';
 import { ActionsService } from 'src/actions/actions.service';
+import { setTargetModel } from './proto-v1.models';
+import { EnvService } from 'src/env/env.service';
 
 @Controller('v1')
 export class ProtoV1Controller {
     private readonly logger = new Logger(ProtoV1Controller.name);
     constructor(
-        private readonly actions: ActionsService
+        private readonly actions: ActionsService,
+        private envService:EnvService
     ) { }
 
     /*
@@ -49,20 +52,26 @@ export class ProtoV1Controller {
         The required configuration or values for the action are provided using this method. 
         
     */
-    @Get(":action")
+    @Get("/action/:action")
     getAction(@Param("action") action: string) {
-        try {
-            return this.actions[action]()
-        } catch (e) {
-            throw new HttpException("not implemented", HttpStatus.BAD_REQUEST)
-        }
+      
+            switch (action) {
+                case "oranization_config":
+                    return this.actions.getOrganizationDialog()
+                    break;
+            
+                default:
+                    throw new HttpException("not implemented", HttpStatus.BAD_REQUEST)
+                    
+            }
+        
     }
 
     /*
      `action` as Param , Based On Soren v1 Protocol
     The required configuration or values are applied using this method
     */
-    @Post(":action")
+    @Post("/action/:action")
     setAction(@Body() body: any, @Param("action") action: string) {
         try {
             return this.actions[action](body)
@@ -78,9 +87,10 @@ export class ProtoV1Controller {
      after target is set , Keep target Url and send records to that .
     */
     @Post("target")
-    setTarget(@Body() body: string) {
+    setTarget(@Body() body: setTargetModel) {
         try {
-
+            this.envService.set("target",body)
+            return this.envService.get("target")
         } catch (e) {
             throw new HttpException("bad request", HttpStatus.BAD_REQUEST)
         }

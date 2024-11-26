@@ -11,23 +11,7 @@ export class ProtoV1Controller {
         private envService:EnvService
     ) { }
 
-    /*
-        `vesion` , Based On Soren v1 Protocol
-    */
-    @Get("version")
-    implVersion() {
-        try {
-            const plugin = this.actions.passportFileRead()
-            return {
-                plugin_name: plugin.name,
-                plugin_version: plugin.version,
-                soren_proto: plugin.proto,
-                schema_version: "srn-schema-v1"
-            }
-        } catch (e) {
-            throw new HttpException("error occurred", HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-    }
+
     /*
         `action` , Based On Soren v1 Protocol
         returned action lists
@@ -61,7 +45,7 @@ export class ProtoV1Controller {
                     break;
             
                 default:
-                    throw new HttpException("not implemented", HttpStatus.BAD_REQUEST)
+                    throw new HttpException("not implemented", HttpStatus.NOT_IMPLEMENTED)
                     
             }
         

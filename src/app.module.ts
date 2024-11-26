@@ -4,6 +4,7 @@ import { EnvModule } from './env/env.module';
 import { ProtoV1Module } from './proto-v1/proto-v1.module';
 
 import { ActionsModule } from './actions/actions.module';
+import { ActionsService } from './actions/actions.service';
 
 @Module({
   imports: [   
@@ -12,6 +13,6 @@ import { ActionsModule } from './actions/actions.module';
      ActionsModule,
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [ActionsService],
 })
 export class AppModule {}

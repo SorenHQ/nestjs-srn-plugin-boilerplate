@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Logger, Param, Post } from '@nestjs/common';
 import { ActionsService } from 'src/actions/actions.service';
-import { setTargetModel } from './proto-v1.models';
+import { setTargetModel, SorenActionModel } from './proto-v1.models';
 import { EnvService } from 'src/env/env.service';
 
 @Controller('v1')
@@ -8,7 +8,7 @@ export class ProtoV1Controller {
     private readonly logger = new Logger(ProtoV1Controller.name);
     constructor(
         private readonly actions: ActionsService,
-        private envService:EnvService
+        private envService: EnvService
     ) { }
 
 
@@ -38,17 +38,12 @@ export class ProtoV1Controller {
     */
     @Get("/action/:action")
     getAction(@Param("action") action: string) {
-      
-            switch (action) {
-                case "oranization_config":
-                    return this.actions.getOrganizationDialog()
-                    break;
-            
-                default:
-                    throw new HttpException("not implemented", HttpStatus.NOT_IMPLEMENTED)
-                    
-            }
-        
+        try {
+
+            return this.actions.viewAction(action)
+        } catch (e) {
+            throw new HttpException("not implemented", HttpStatus.NOT_IMPLEMENTED)
+        }
     }
 
     /*
@@ -56,9 +51,9 @@ export class ProtoV1Controller {
     The required configuration or values are applied using this method
     */
     @Post("/action/:action")
-    setAction(@Body() body: any, @Param("action") action: string) {
+    setAction(@Body() body: SorenActionModel, @Param("action") action: string) {
         try {
-            return this.actions[action](body)
+            return this.actions.runAction(action,body)
         } catch (e) {
             throw new HttpException("not implemented", HttpStatus.BAD_REQUEST)
         }
@@ -73,7 +68,7 @@ export class ProtoV1Controller {
     @Post("target")
     setTarget(@Body() body: setTargetModel) {
         try {
-            this.envService.set("target",body)
+            this.envService.set("target", body)
             return this.envService.get("target")
         } catch (e) {
             throw new HttpException("bad request", HttpStatus.BAD_REQUEST)

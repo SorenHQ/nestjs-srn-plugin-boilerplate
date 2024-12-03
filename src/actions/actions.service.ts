@@ -1,37 +1,41 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PluginDefinition, SorenActionModel } from 'src/proto-v1/proto-v1.models';
-const fs = require('node:fs');
+import { GithubService } from 'src/github/github.service';
+import { LocalStoreService } from 'src/localstore/localstore.service';
+import { getApiByAction } from 'src/github/github.api';
 
 @Injectable()
 export class ActionsService {
     private readonly logger = new Logger(ActionsService.name);
 
+    constructor(
+        private readonly persist: LocalStoreService,
+        private readonly github: GithubService
 
+    ) { }
     actionsList(): any {
-        return [
-            "oranization_config"
-
-        ]
+        return this.github.gitApis().map(elem=>{
+            return {
+                "action":elem.action,
+                "description":elem.description,
+                "title":elem.title,
+            }
+        })
     }
 
-    passportFileRead(): PluginDefinition {
-        const data = fs.readFileSync('srn.passport.json', 'utf8');
-        return JSON.parse(data)
+
+
+    viewAction(action){
+        return getApiByAction(action)?.meta.dialog
+
     }
 
-    getOrganizationDialog(): SorenActionModel {
-        return {
-            name: "OrganizationId",
-            "description": "Set OrganizationId or Name",
-            title: "Organization Info",
-            params: [{
-                attr: { multi: true, ref: "account_orgs" },
-                key: "org",
-                value: [],
-                title: "Select Organization Id's",
-                type: "string"
+    async runAction(action,body) {
+        if (getApiByAction(action)?.meta?.persist){
+            return this.persist.add(action,body)
 
-            }]
-        } as SorenActionModel
+        }
+         return (await this.github.gitCallApi(action,body)).data
     }
+
+ 
 }

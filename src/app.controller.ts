@@ -19,8 +19,8 @@ export class AppController {
         @Get("version")
         implVersion() {
             try {
-                const plugin = this.actions.passportFileRead()
-                return {
+              const plugin = fs.readFileSync('srn.passport.json', 'utf8');
+                    return {
                     plugin_name: plugin.name,
                     plugin_version: plugin.version,
                     soren_proto: plugin.proto,
@@ -40,3 +40,5 @@ export class AppController {
     }
   }
 }
+
+

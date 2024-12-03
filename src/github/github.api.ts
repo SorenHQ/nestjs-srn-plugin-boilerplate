@@ -1,11 +1,38 @@
 export const githubApi = [
     {
+        "action": "commits",
+        "description": "get commits od repo",
+        "title": "commit list ",
+        "meta": {
+            "path": "GET /repos/{owner}/{repo}/commits",
+            "dialog": {
+                name: "Commit ",
+                "description": "",
+                title: "Commits related ",
+                params: [{
+                    attr: { multi: false, ref: "" },
+                    key: "owner",
+                    value: [],
+                    title: "Enter Repo Owner",
+                    type: "string"
+
+                },{
+                    attr: { multi: false, ref: "" },
+                    key: "repo",
+                    value: [],
+                    title: "Enter Repo name",
+                    type: "string"
+
+                }]
+            }
+        }
+    },
+    {
         "action": "repolist",
-        "description": "",
-        "title": "",
+        "description": "github repo list",
+        "title": "repo list ",
         "meta": {
             "path": "GET /orgs/{org}/repos",
-            "requiredParamsKey": { org: "org" },
             "dialog": {
                 name: "Organization",
                 "description": "Set Selected Organization that Associated With Access Token",

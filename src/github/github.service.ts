@@ -27,18 +27,10 @@ export class GithubService {
             'X-GitHub-Api-Version': '2022-11-28'
           },}
           req = {...req,...this.extractParams(body)}
+          this.logger.log(req,accessToken)
           return await oc.request(getApiByAction(action)?.meta?.path,req);
 
     }
-
-    // mekeRequirements(action:string):any{
-    //     const varKey = getApiByAction(action)?.meta.requiredParamsKey
-    //     let fields={}
-    //     for (const el in varKey){
-    //         fields[el]=this.persis.get("global").params.find(r=>r.key==varKey[el]).value[0]
-    //     }
-    //     return fields
-    // }
 
     extractParams(body){
         let fields={}

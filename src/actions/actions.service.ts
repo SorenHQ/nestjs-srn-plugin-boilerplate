@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { GithubService } from 'src/github/github.service';
+import { HelloService } from 'src/hello/hello.service';
 import { LocalStoreService } from 'src/localstore/localstore.service';
-import { getApiByAction } from 'src/github/github.api';
+import { getActionByMethodName } from 'src/hello/hello.methods';
+import { getActionByAttrName } from 'src/hello/hello.settings';
 
 @Injectable()
 export class ActionsService {
@@ -9,33 +10,50 @@ export class ActionsService {
 
     constructor(
         private readonly persist: LocalStoreService,
-        private readonly github: GithubService
+        private readonly Hello: HelloService
 
     ) { }
-    actionsList(): any {
-        return this.github.gitApis().map(elem=>{
+    methodList(): any {
+        return this.Hello.methodDictionary().map(elem => {
             return {
-                "action":elem.action,
-                "description":elem.description,
-                "title":elem.title,
+                "method": elem.method,
+                "description": elem.description,
+                "title": elem.title,
+                "icon": ""
             }
         })
     }
 
-
-
-    viewAction(action){
-        return getApiByAction(action)?.meta.dialog
-
+    attributeList(): any {
+        return this.Hello.attributesDictionary().map(elem => {
+            return {
+                "method": elem.method,
+                "description": elem.description,
+                "title": elem.title,
+                "icon": ""
+            }
+        })
     }
 
-    async runAction(action,body) {
-        if (getApiByAction(action)?.meta?.persist){
-            return this.persist.add(action,body)
+    viewMethod(action) {
+        return getActionByMethodName(action)?.meta.dialog
+
+    }
+    viewAttribute(action) {
+        return getActionByAttrName(action)?.meta.dialog
+
+    }
+    async runMethod(action, body) {
+
+        return { data: await this.Hello.run(action, body), error: null }
+    }
+
+    async setSettings(action, body) {
+        if (getActionByAttrName(action)?.meta?.persist) {
+            this.persist.add(action, body)
 
         }
-         return (await this.github.gitCallApi(action,body)).data
-    }
+        return { data: await this.Hello.run(action, body), error: null }
 
- 
+    }
 }

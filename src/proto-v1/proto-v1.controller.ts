@@ -3,7 +3,7 @@ import { ActionsService } from 'src/actions/actions.service';
 import { setTargetModel, SorenActionModel } from './proto-v1.models';
 import { EnvService } from 'src/env/env.service';
 
-@Controller('v1')
+@Controller('api')
 export class ProtoV1Controller {
     private readonly logger = new Logger(ProtoV1Controller.name);
     constructor(
@@ -20,58 +20,77 @@ export class ProtoV1Controller {
         set by the consumer, 
         and submitted via the POST method.
     */
-    @Get("actions")
+    @Get("methods")
     implActionsList() {
         try {
-            return this.actions.actionsList()
+            return this.actions.methodList()
 
         } catch (e) {
             throw new HttpException("error occurred", HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
+    @Get("attributes")
+    implAttributesList() {
+        try {
+            return this.actions.attributeList()
 
+        } catch (e) {
+            throw new HttpException("error occurred", HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
     /*
-        `action`as Param , Based On Soren v1 Protocol
+        `method`as Param , Based On Soren v1 Protocol
         The required configuration or values for the action are provided using this method. 
         
     */
-    @Get("/action/:action")
-    getAction(@Param("action") action: string) {
+    @Get("/method/:method")
+    getMethod(@Param("method") action: string) {
         try {
 
-            return this.actions.viewAction(action)
+            return this.actions.viewMethod(action)
         } catch (e) {
             throw new HttpException("not implemented", HttpStatus.NOT_IMPLEMENTED)
         }
     }
 
+        /*
+        `method`as Param , Based On Soren v1 Protocol
+        The required configuration or values for the action are provided using this method. 
+        
+    */
+        @Get("/attribute/:attr")
+        getAttr(@Param("attr") action: string) {
+            try {
+    
+                return this.actions.viewAttribute(action)
+            } catch (e) {
+                throw new HttpException("not implemented", HttpStatus.NOT_IMPLEMENTED)
+            }
+        }
+
     /*
      `action` as Param , Based On Soren v1 Protocol
     The required configuration or values are applied using this method
     */
-    @Post("/action/:action")
-    setAction(@Body() body: SorenActionModel, @Param("action") action: string) {
+    @Post("/method/:method")
+    runAction(@Body() body: SorenActionModel, @Param("method") action: string) {
         try {
-            return this.actions.runAction(action,body)
+            return this.actions.runMethod(action,body)
         } catch (e) {
             throw new HttpException("not implemented", HttpStatus.BAD_REQUEST)
         }
     }
 
-    /*
-     Set Entry Gateway , Based On Soren v1 Protocol
-     Plugin must be know target Url for Pushing data to That.  
-     for example , All Collected Data Send to Given Url that set by This Action.
-     after target is set , Keep target Url and send records to that .
-    */
-    @Post("target")
-    setTarget(@Body() body: setTargetModel) {
+
+    @Post("/attribute/:attr")
+    setAttr(@Body() body: SorenActionModel, @Param("attr") action: string) {
         try {
-            this.envService.set("target", body)
-            return this.envService.get("target")
+            return this.actions.setSettings(action,body)
         } catch (e) {
-            throw new HttpException("bad request", HttpStatus.BAD_REQUEST)
+            throw new HttpException("not implemented", HttpStatus.BAD_REQUEST)
         }
     }
+
+
 }

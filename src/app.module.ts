@@ -5,18 +5,18 @@ import { ProtoV1Module } from './proto-v1/proto-v1.module';
 
 import { ActionsModule } from './actions/actions.module';
 import { ActionsService } from './actions/actions.service';
-import { GithubModule } from './github/github.module';
+import { HelloModule } from './hello/hello.module';
 import { LocalstoreModule } from './localstore/localstore.module';
 import { LocalStoreService } from './localstore/localstore.service';
-import { GithubService } from './github/github.service.js';
+import { HelloService } from './hello/hello.service.js';
 
 @Module({
   imports: [   
      EnvModule.forRoot(),
      ProtoV1Module, 
-     ActionsModule, GithubModule, LocalstoreModule,
+     ActionsModule, HelloModule, LocalstoreModule,
   ],
   controllers: [AppController],
-  providers: [ActionsService,LocalStoreService,GithubService],
+  providers: [ActionsService,LocalStoreService,HelloService],
 })
 export class AppModule {}

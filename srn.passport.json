@@ -1,74 +1,55 @@
 {
-    "name": "nmap",
-    "author": "mate anderson",
+    "name": "Say Hello",
+    "author": "John Doe",
     "version": "v8.7.1",
     "proto": "v0.0.1",
-    "category": "Code Quality & Security",
-    "repo": "",
-    "icon": "https://nmap.org/images/sitelogo.png",
-    "description": "",
-    "tag": [
-        "network",
-        "ip",
-        "scanner"
-    ],
-    "readme":"md",
-    "additionalInfo":{},
-    "accessDomains":[],
-    "actions":  [
-            {
-                "selected": true,
-                "name":"auth",
-                "title": "Snyk Api",
-                "description": "Form 1 , Collecting All Project in Snyk Account",
-                "params": [
-                    {
-                        "title": "Enter Access key",
-                        "help": "",
-                        "key": "",
-                        "value": "",
-                        "type": "string",
-                        "attr": {}
-                    },
-                    {
-                        "type": "string",
-                        "attr": {
-                            "regex_pattern": ""
-                        },
-                        "title": "Enter Target Url",
-                        "help": "",
-                        "key": "url",
-                        "value": ""
-                    }
-                ]
-            },
-          {
-                "selected": false,
-                "name":"schedular",
-                "title": "Schedular Configs",
-                "description": "time configs in periodically running a job",
-                "params": [
-                    {
-                        "title": "Minute",
-                        "help": "",
-                        "key": "minute",
-                        "value": "",
-                        "type": "number",
-                        "attr": {}
-                    },
-                    {
-                        "type": "string",
-                        "attr": {
-                            "regex_pattern": "","ref":""
-                        },
-                        "title": "Select Job",
-                        "help": "",
-                        "key": "job",
-                        "value": ""
-                    }
-                ]
-            }
-        ]
-    
-}
-
+    "schema_version": "srn-schema-v1",
+    "init_config": [
+        {
+            "name": "webhook",        
+            "title": "Url",     
+            "description": "this method send events to given url", 
+            "params": [ 
+              {
+            
+                "attr": {
+                  "regex_pattern": {      
+                    "pattern": "^[pattern]$",
+                    "message": "Validation message"
+                  },
+                  "input_type": "string",    
+                  "secret": false,             
+                  "required": true             
+                },
+                "options":[],
+                "key": "target_url",                
+                "placeholder": "Enter Url",
+                "value": [],        
+                "title": "Url",        
+                "description": "Parameter description" 
+              },
+              {
+            
+                "attr": {
+                  "regex_pattern": {      
+                    "pattern": "^[pattern]$",
+                    "message": "Validation message"
+                  },
+                  "input_type": "string",    
+                  "secret": true,             
+                  "required": true             
+                },
+                "options":[{
+                  "value": "hi",
+                  "title": "hello"
+                }],
+                "key": "authkey",                
+                "placeholder": "Enter Bearer Token",
+                "value": [],        
+                "title": "Auth Key",        
+                "description": "Parameter description" 
+              }
+            ]
+          }
+    ]
+  }

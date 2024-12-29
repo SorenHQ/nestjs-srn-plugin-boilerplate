@@ -19,26 +19,14 @@ export class AppController {
         @Get("version")
         implVersion() {
             try {
-              const plugin = fs.readFileSync('srn.passport.json', 'utf8');
-                    return {
-                    plugin_name: plugin.name,
-                    plugin_version: plugin.version,
-                    soren_proto: plugin.proto,
-                    schema_version: "srn-schema-v1"
-                }
+              const passport = fs.readFileSync('srn.passport.json', 'utf8');
+              const plugin = JSON.parse(passport)
+                    return plugin
             } catch (e) {
                 throw new HttpException("error occurred", HttpStatus.INTERNAL_SERVER_ERROR)
             }
         }
-  @Get()
-  Descibe():any{
-    try {
-      const data = fs.readFileSync('srn.passport.json', 'utf8');
-      return JSON.parse(data)
-    } catch (err) {
-      return err
-    }
-  }
+
 }
 
 

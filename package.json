@@ -28,6 +28,7 @@
     "@octokit/core": "^5.2.0",
     "@octokit/rest": "^21.0.2",
     "@octokit/types": "^13.6.2",
+    "axios": "^1.7.9",
     "octokit": "^4.0.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"

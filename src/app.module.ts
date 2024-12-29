@@ -9,6 +9,7 @@ import { HelloModule } from './hello/hello.module';
 import { LocalstoreModule } from './localstore/localstore.module';
 import { LocalStoreService } from './localstore/localstore.service';
 import { HelloService } from './hello/hello.service.js';
+import { ProtoV1Service } from './proto-v1/proto-v1.service';
 
 @Module({
   imports: [   
@@ -17,6 +18,6 @@ import { HelloService } from './hello/hello.service.js';
      ActionsModule, HelloModule, LocalstoreModule,
   ],
   controllers: [AppController],
-  providers: [ActionsService,LocalStoreService,HelloService],
+  providers: [ActionsService,LocalStoreService,HelloService,ProtoV1Service],
 })
 export class AppModule {}

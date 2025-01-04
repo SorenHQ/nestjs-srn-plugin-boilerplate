@@ -2,13 +2,15 @@ import { Body, Controller, Get, HttpException, HttpStatus, Logger, Param, Post }
 import { ActionsService } from 'src/actions/actions.service';
 import { setTargetModel, SorenActionModel } from './proto-v1.models';
 import { EnvService } from 'src/env/env.service';
+import { ProtoV1Service } from './proto-v1.service';
 
 @Controller('api')
 export class ProtoV1Controller {
     private readonly logger = new Logger(ProtoV1Controller.name);
     constructor(
         private readonly actions: ActionsService,
-        private envService: EnvService
+        private envService: EnvService,
+        private protoService: ProtoV1Service
     ) { }
 
 
@@ -47,27 +49,28 @@ export class ProtoV1Controller {
     @Get("/method/:method")
     getMethod(@Param("method") action: string) {
         try {
-
+            this.logger.log(action)
+            this.protoService.sendEvent(`Get Method : ${action} `)
             return this.actions.viewMethod(action)
         } catch (e) {
             throw new HttpException("not implemented", HttpStatus.NOT_IMPLEMENTED)
         }
     }
 
-        /*
-        `method`as Param , Based On Soren v1 Protocol
-        The required configuration or values for the action are provided using this method. 
-        
-    */
-        @Get("/attribute/:attr")
-        getAttr(@Param("attr") action: string) {
-            try {
+    /*
+    `method`as Param , Based On Soren v1 Protocol
+    The required configuration or values for the action are provided using this method. 
     
-                return this.actions.viewAttribute(action)
-            } catch (e) {
-                throw new HttpException("not implemented", HttpStatus.NOT_IMPLEMENTED)
-            }
+*/
+    @Get("/attribute/:attr")
+    getAttr(@Param("attr") action: string) {
+        try {
+
+            return this.actions.viewAttribute(action)
+        } catch (e) {
+            throw new HttpException("not implemented", HttpStatus.NOT_IMPLEMENTED)
         }
+    }
 
     /*
      `action` as Param , Based On Soren v1 Protocol
@@ -76,7 +79,9 @@ export class ProtoV1Controller {
     @Post("/method/:method")
     runAction(@Body() body: SorenActionModel, @Param("method") action: string) {
         try {
-            return this.actions.runMethod(action,body)
+            this.protoService.sendEvent(`Post Method : ${action} `)
+
+            return this.actions.runMethod(action, body)
         } catch (e) {
             throw new HttpException("not implemented", HttpStatus.BAD_REQUEST)
         }
@@ -86,7 +91,7 @@ export class ProtoV1Controller {
     @Post("/attribute/:attr")
     setAttr(@Body() body: SorenActionModel, @Param("attr") action: string) {
         try {
-            return this.actions.setSettings(action,body)
+            return this.actions.setSettings(action, body)
         } catch (e) {
             throw new HttpException("not implemented", HttpStatus.BAD_REQUEST)
         }

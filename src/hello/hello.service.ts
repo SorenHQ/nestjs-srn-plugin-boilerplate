@@ -10,7 +10,7 @@ export class HelloService {
     private readonly logger = new Logger(HelloService.name);
     constructor(
         private persis: LocalStoreService
-    ) { 
+    ) {  
 
     }
     methodDictionary(){

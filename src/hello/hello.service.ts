@@ -22,8 +22,16 @@ export class HelloService {
     }
         
    async run(action:string,body={}){
-
-        return {action,result:"run it"}
+        if (action="plus"){
+            let kv = this.extractParams(body)
+            let result = Number(kv["digit1"][0]) + Number(kv["digit2"][0])
+            return {action,result}
+        }else if (action=="mirror"){
+            let kv = this.extractParams(body)
+            let result = {p1:kv["p2"],p2:kv["p1"]}
+            return {action,result}
+        }
+        return {action,result:"not found"}
 
     }
 
@@ -31,7 +39,7 @@ export class HelloService {
         let fields={}
         body.params.map(el=>{
 
-            fields[el.key]=el.value[0]
+            fields[el.key]=el.value.length>0? el.value:[0]
         })
         return fields
     }

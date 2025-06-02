@@ -1,55 +1,10 @@
 {
     "name": "Say Hello",
     "author": "John Doe",
-    "version": "v8.7.1",
+    "version": "v0.2.0",
     "proto": "v0.0.1",
     "schema_version": "srn-schema-v1",
     "init_config": [
-        {
-            "name": "webhook",        
-            "title": "Url",     
-            "description": "this method send events to given url", 
-            "params": [ 
-              {
-            
-                "attr": {
-                  "regex_pattern": {      
-                    "pattern": "^[pattern]$",
-                    "message": "Validation message"
-                  },
-                  "input_type": "string",    
-                  "secret": false,             
-                  "required": true             
-                },
-                "options":[],
-                "key": "target_url",                
-                "placeholder": "Enter Url",
-                "value": [],        
-                "title": "Url",        
-                "description": "Parameter description" 
-              },
-              {
-            
-                "attr": {
-                  "regex_pattern": {      
-                    "pattern": "^[pattern]$",
-                    "message": "Validation message"
-                  },
-                  "input_type": "string",    
-                  "secret": true,             
-                  "required": true             
-                },
-                "options":[{
-                  "value": "hi",
-                  "title": "hello"
-                }],
-                "key": "authkey",                
-                "placeholder": "Enter Bearer Token",
-                "value": [],        
-                "title": "Auth Key",        
-                "description": "Parameter description" 
-              }
-            ]
-          }
+
     ]
   }

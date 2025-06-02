@@ -13,7 +13,7 @@ export const HelloMethods = [
 
             "attr": {
               "regex_pattern": {
-                "pattern": "^[pattern]$",
+                "pattern": "^\s+$",
                 "message": "Validation message"
               },
               "input_type": "string",
@@ -34,7 +34,7 @@ export const HelloMethods = [
 
             "attr": {
               "regex_pattern": {
-                "pattern": "^[pattern]$",
+                "pattern": "^\s$",
                 "message": "Validation message"
               },
               "input_type": "number",
@@ -69,7 +69,7 @@ export const HelloMethods = [
 
             "attr": {
               "regex_pattern": {
-                "pattern": "^[pattern]$",
+                "pattern": "^[0-9]+.[0-9]+$",
                 "message": "Validation message"
               },
               "input_type": "number",
@@ -87,7 +87,7 @@ export const HelloMethods = [
 
             "attr": {
               "regex_pattern": {
-                "pattern": "^[pattern]$",
+                "pattern": "^[0-9]+.[0-9]+$",
                 "message": "Validation message"
               },
               "input_type": "number",

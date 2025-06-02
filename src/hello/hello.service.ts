@@ -22,7 +22,7 @@ export class HelloService {
     }
         
    async run(action:string,body={}){
-        if (action="plus"){
+        if (action=="plus"){
             let kv = this.extractParams(body)
             let result = Number(kv["digit1"][0]) + Number(kv["digit2"][0])
             return {action,result}
